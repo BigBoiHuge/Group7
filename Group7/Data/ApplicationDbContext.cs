@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using HappyCitizens.Models;
 
-namespace Group7.Data
+namespace HappyCitizens.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
@@ -12,5 +10,6 @@ namespace Group7.Data
             : base(options)
         {
         }
+        public DbSet<HappyCitizens.Models.User> User { get; set; }
     }
 }
