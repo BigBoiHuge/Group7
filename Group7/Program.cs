@@ -1,14 +1,22 @@
 using HappyCitizens.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+// use SQLite for development and SQL Server for production
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(
+        builder.Configuration.GetConnectionString("ApplicationDbContext")));
+    builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+}
+else
+{
+    builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
+        builder.Configuration.GetConnectionString("ProductionApplicationDbContext")));
+}
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
