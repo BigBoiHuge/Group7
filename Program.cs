@@ -3,22 +3,25 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
+const string context = "ApplicationDbContext";
 var builder = WebApplication.CreateBuilder(args);
 
 // use SQLite for development and SQL Server for production
 if (builder.Environment.IsDevelopment())
 {
-    builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(
-        builder.Configuration.GetConnectionString("ApplicationDbContext")));
-    builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+    builder.Services
+        .AddDbContext<ApplicationDbContext>(options => options.UseSqlite(
+            builder.Configuration.GetConnectionString(context)))
+        .AddDatabaseDeveloperPageExceptionFilter();
 }
 else
 {
     builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
-        builder.Configuration.GetConnectionString("ProductionApplicationDbContext")));
+        builder.Configuration.GetConnectionString($"Production{context}")));
 }
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services
+    .AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
@@ -36,13 +39,11 @@ else
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
-
-app.UseAuthentication();
-app.UseAuthorization();
+app.UseHttpsRedirection()
+    .UseStaticFiles()
+    .UseRouting()
+    .UseAuthentication()
+    .UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
