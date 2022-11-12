@@ -28,7 +28,7 @@ namespace HappyCitizens.Controllers
         }
 
         // GET: User/ShowInventory
-        public async Task<IActionResult> ShowInventory()
+        public IActionResult ShowInventory()
         {
             return View();
         }
