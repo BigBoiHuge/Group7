@@ -22,9 +22,10 @@ namespace HappyCitizens.Controllers
         // GET: Property
         public async Task<IActionResult> Index()
         {
-              return _context.Property != null ? 
-                          View(await _context.Property.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Property'  is null.");
+            return _context.Property != null ?
+                View(await _context.Property.Include(@property => @property.User).ToListAsync()) :
+                Problem("Entity set 'ApplicationDbContext.Property' is null");
+
         }
 
         // GET: Property/Details/5
@@ -36,6 +37,7 @@ namespace HappyCitizens.Controllers
             }
 
             var @property = await _context.Property
+                .Include(@property => @property.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (@property == null)
             {
@@ -48,6 +50,7 @@ namespace HappyCitizens.Controllers
         // GET: Property/Create
         public IActionResult Create()
         {
+            ViewData["UserId"] = new SelectList(_context.User, "Id", "FullName");
             return View();
         }
 
@@ -56,10 +59,12 @@ namespace HappyCitizens.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Owner,MailingAddress,PhysicalAddress,YearBuilt")] Property @property)
+        public async Task<IActionResult> Create([Bind("Id,UserId,MailingAddress,PhysicalAddress,YearBuilt,DeputyAppraiser")] Property @property)
         {
-            if (ModelState.IsValid)
+            var user = _context.User.Find(@property.UserId);
+            if (user != null)
             {
+                @property.User = user;
                 _context.Add(@property);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -80,6 +85,7 @@ namespace HappyCitizens.Controllers
             {
                 return NotFound();
             }
+            ViewData["UserId"] = new SelectList(_context.User, "Id", "FullName", @property.UserId);
             return View(@property);
         }
 
@@ -88,34 +94,38 @@ namespace HappyCitizens.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Owner,MailingAddress,PhysicalAddress,YearBuilt")] Property @property)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,MailingAddress,PhysicalAddress,YearBuilt,DeputyAppraiser")] Property @property)
         {
             if (id != @property.Id)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            var user = _context.User.Find(@property.UserId);
+            if (user == null)
             {
-                try
-                {
-                    _context.Update(@property);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PropertyExists(@property.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                ViewData["UserId"] = new SelectList(_context.User, "Id", "FullName", @property.UserId);
+                return View(@property);
             }
-            return View(@property);
+
+            @property.User = user;
+            try
+            {
+                _context.Update(@property);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!PropertyExists(@property.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Property/Delete/5
@@ -127,6 +137,7 @@ namespace HappyCitizens.Controllers
             }
 
             var @property = await _context.Property
+                .Include(@property => @property.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (@property == null)
             {
@@ -150,7 +161,7 @@ namespace HappyCitizens.Controllers
             {
                 _context.Property.Remove(@property);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
