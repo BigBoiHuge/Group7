@@ -1,8 +1,8 @@
-﻿using HappyCitizens.Models;
+﻿using admin.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace HappyCitizens.Controllers
+namespace admin.Controllers
 {
     public class HomeController : Controller
     {
