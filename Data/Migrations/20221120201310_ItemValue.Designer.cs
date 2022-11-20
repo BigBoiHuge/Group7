@@ -4,6 +4,7 @@ using HappyCitizens.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HappyCitizens.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221120201310_ItemValue")]
+    partial class ItemValue
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -301,7 +304,7 @@ namespace HappyCitizens.Data.Migrations
             modelBuilder.Entity("HappyCitizens.Models.Item", b =>
                 {
                     b.HasOne("HappyCitizens.Models.User", "User")
-                        .WithMany("Items")
+                        .WithMany("Properties")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -369,7 +372,7 @@ namespace HappyCitizens.Data.Migrations
 
             modelBuilder.Entity("HappyCitizens.Models.User", b =>
                 {
-                    b.Navigation("Items");
+                    b.Navigation("Properties");
 
                     b.Navigation("SharedProfiles");
                 });

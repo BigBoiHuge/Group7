@@ -15,7 +15,7 @@ public class User
     public string Email { get; set; } = String.Empty;
 
     public bool IsAdmin { get; set; }
-    public virtual ICollection<Property> Properties { get; set; } = new List<Property>();
+    public virtual ICollection<Item> Inventory { get; set; } = new List<Item>();
     public virtual ICollection<User> SharedProfiles { get; set; } = new List<User>();
 
     public User()

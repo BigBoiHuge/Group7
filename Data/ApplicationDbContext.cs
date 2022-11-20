@@ -10,7 +10,7 @@ namespace HappyCitizens.Data
             : base(options)
         {
         }
-        public DbSet<HappyCitizens.Models.Property> Property { get; set; } = default!;
+        public DbSet<HappyCitizens.Models.Item> Item { get; set; } = default!;
         public DbSet<HappyCitizens.Models.User> User { get; set; } = default!;
     }
 }
