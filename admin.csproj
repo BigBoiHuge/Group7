@@ -1,10 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-admin-a4a42e2f-5d88-4743-bffe-dd6c7be7eb59</UserSecretsId>
+    <RootNamespace>HappyCitizens</RootNamespace>
+    <AssemblyName>HappyCitizens</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

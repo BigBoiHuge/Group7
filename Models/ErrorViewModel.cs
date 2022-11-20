@@ -1,4 +1,4 @@
-namespace admin.Models
+namespace HappyCitizens.Models
 {
     public class ErrorViewModel
     {

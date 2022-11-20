@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 
-namespace admin.Data.Migrations
+namespace HappyCitizens.Data.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {

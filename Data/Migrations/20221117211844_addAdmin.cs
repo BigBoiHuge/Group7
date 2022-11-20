@@ -4,7 +4,7 @@ using System.Text;
 
 #nullable disable
 
-namespace admin.Data.Migrations
+namespace HappyCitizens.Data.Migrations
 {
     /// <inheritdoc />
     public partial class addAdmin : Migration

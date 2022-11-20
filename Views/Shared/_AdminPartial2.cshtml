@@ -1,6 +1,6 @@
 ﻿
 @using Microsoft.AspNetCore.Identity
-@using admin.Data
+@using HappyCitizens.Data
 
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
@@ -12,6 +12,9 @@
     <li class="nav-item dropdown show">
           <a class="dropdown-toggle nav-link text-dark" href="#" data-toggle="dropdown">Admin</a>
         <div class="dropdown-menu">
+            <a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Index">Users</a>
+            <a class="dropdown-item" asp-area="" asp-controller="Properties" asp-action="Index">Properties</a>
+            <a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="ShowInventory">Search</a>
             <a class="dropdown-item" ><i class="fas fa-box mr-2"></i>Categories</a>
             <a class="dropdown-item" ><i class="fas fa-users mr-2"></i>Users to Category</a>
             <div class="dropdown-divider"></div>
