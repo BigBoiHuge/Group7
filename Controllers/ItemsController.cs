@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,113 +10,114 @@ using HappyCitizens.Models;
 
 namespace HappyCitizens.Controllers
 {
-    public class PropertyController : Controller
+    public class ItemsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public PropertyController(ApplicationDbContext context)
+        public ItemsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Property
+        // GET: Items
         public async Task<IActionResult> Index()
         {
-            return _context.Property != null ?
-                View(await _context.Property.Include(@property => @property.User).ToListAsync()) :
-                Problem("Entity set 'ApplicationDbContext.Property' is null");
-
+            return _context.Item != null ?
+                View(await _context.Item.Include(p => p.User).ToListAsync()) :
+                Problem("Entity set 'ApplicationDbContext.Item' is null");
         }
 
-        // GET: Property/Details/5
+        // GET: Items/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Property == null)
+            if (id == null || _context.Item == null)
             {
                 return NotFound();
             }
 
-            var @property = await _context.Property
-                .Include(@property => @property.User)
+            var item = await _context.Item
+                .Include(i => i.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (@property == null)
+            if (item == null)
             {
                 return NotFound();
             }
 
-            return View(@property);
+            return View(item);
         }
 
-        // GET: Property/Create
+        // GET: Items/Create
         public IActionResult Create()
         {
             ViewData["UserId"] = new SelectList(_context.User, "Id", "FullName");
             return View();
         }
 
-        // POST: Property/Create
+        // POST: Items/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,UserId,MailingAddress,PhysicalAddress,YearBuilt,DeputyAppraiser")] Property @property)
+        public async Task<IActionResult> Create([Bind("Id,UserId,Room,Description,Category,PurchaseDate,Condition,Price,IsInsured")] Item item)
         {
-            var user = _context.User.Find(@property.UserId);
+            var user = _context.User.Find(item.UserId);
             if (user != null)
             {
-                @property.User = user;
-                _context.Add(@property);
+                item.User = user;
+                _context.Add(item);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(@property);
+            ViewData["UserId"] = new SelectList(_context.User, "Id", "FullName", item.UserId);
+            return View(item);
+            
         }
 
-        // GET: Property/Edit/5
+        // GET: Items/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Property == null)
+            if (id == null || _context.Item == null)
             {
                 return NotFound();
             }
 
-            var @property = await _context.Property.FindAsync(id);
-            if (@property == null)
+            var item = await _context.Item.FindAsync(id);
+            if (item == null)
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.User, "Id", "FullName", @property.UserId);
-            return View(@property);
+            ViewData["UserId"] = new SelectList(_context.User, "Id", "FullName", item.UserId);
+            return View(item);
         }
 
-        // POST: Property/Edit/5
+        // POST: Items/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,MailingAddress,PhysicalAddress,YearBuilt,DeputyAppraiser")] Property @property)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,Room,Description,Category,PurchaseDate,Condition,Price,IsInsured")] Item item)
         {
-            if (id != @property.Id)
+            if (id != item.Id)
             {
                 return NotFound();
             }
 
-            var user = _context.User.Find(@property.UserId);
+            var user = _context.User.Find(item.UserId);
             if (user == null)
             {
-                ViewData["UserId"] = new SelectList(_context.User, "Id", "FullName", @property.UserId);
-                return View(@property);
+                ViewData["UserId"] = new SelectList(_context.User, "Id", "FullName", item.UserId);
+                return View(item);
             }
 
-            @property.User = user;
+            item.User = user;
             try
             {
-                _context.Update(@property);
+                _context.Update(item);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PropertyExists(@property.Id))
+                if (!ItemExists(item.Id))
                 {
                     return NotFound();
                 }
@@ -128,47 +129,47 @@ namespace HappyCitizens.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Property/Delete/5
+        // GET: Items/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Property == null)
+            if (id == null || _context.Item == null)
             {
                 return NotFound();
             }
 
-            var @property = await _context.Property
-                .Include(@property => @property.User)
+            var item = await _context.Item
+                .Include(i => i.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (@property == null)
+            if (item == null)
             {
                 return NotFound();
             }
 
-            return View(@property);
+            return View(item);
         }
 
-        // POST: Property/Delete/5
+        // POST: Items/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Property == null)
+            if (_context.Item == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Property'  is null.");
+                return Problem("Entity set 'ApplicationDbContext.Item'  is null.");
             }
-            var @property = await _context.Property.FindAsync(id);
-            if (@property != null)
+            var item = await _context.Item.FindAsync(id);
+            if (item != null)
             {
-                _context.Property.Remove(@property);
+                _context.Item.Remove(item);
             }
-
+            
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PropertyExists(int id)
+        private bool ItemExists(int id)
         {
-          return (_context.Property?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Item?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

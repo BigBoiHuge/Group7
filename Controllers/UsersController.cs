@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,19 +10,19 @@ using HappyCitizens.Models;
 
 namespace HappyCitizens.Controllers
 {
-    public class UserController : Controller
+    public class UsersController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public UserController(ApplicationDbContext context)
+        public UsersController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: User
+        // GET: Users
         public async Task<IActionResult> Index()
         {
-              return _context.User != null ?
+              return _context.User != null ? 
                           View(await _context.User.ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.User'  is null.");
         }
@@ -33,7 +33,7 @@ namespace HappyCitizens.Controllers
             return View();
         }
 
-        // GET: User/Details/5
+        // GET: Users/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.User == null)
@@ -51,13 +51,13 @@ namespace HappyCitizens.Controllers
             return View(user);
         }
 
-        // GET: User/Create
+        // GET: Users/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: User/Create
+        // POST: Users/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -73,7 +73,7 @@ namespace HappyCitizens.Controllers
             return View(user);
         }
 
-        // GET: User/Edit/5
+        // GET: Users/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.User == null)
@@ -89,7 +89,7 @@ namespace HappyCitizens.Controllers
             return View(user);
         }
 
-        // POST: User/Edit/5
+        // POST: Users/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -124,7 +124,7 @@ namespace HappyCitizens.Controllers
             return View(user);
         }
 
-        // GET: User/Delete/5
+        // GET: Users/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.User == null)
@@ -142,7 +142,7 @@ namespace HappyCitizens.Controllers
             return View(user);
         }
 
-        // POST: User/Delete/5
+        // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -156,7 +156,7 @@ namespace HappyCitizens.Controllers
             {
                 _context.User.Remove(user);
             }
-
+            
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
