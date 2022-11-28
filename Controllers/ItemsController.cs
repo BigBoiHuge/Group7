@@ -29,7 +29,7 @@ namespace HappyCitizens.Controllers
             var items = from i in _context.Item select i;
             if (!String.IsNullOrEmpty(searchString))
             {
-                items = items.Where(i => i.UserId == searchString);
+                items = items.Where(i => i.User.UserName == searchString);
             }
             
             return _context.Item != null ?
