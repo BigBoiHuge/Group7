@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HappyCitizens.Data;
 using HappyCitizens.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace HappyCitizens.Controllers
 {
     public class ItemsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ItemsController(ApplicationDbContext context)
+        public ItemsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Items
@@ -46,10 +49,29 @@ namespace HappyCitizens.Controllers
             return View(item);
         }
 
+        List<SelectListItem> GetUserList()
+        {
+            var items = new List<SelectListItem>();
+            foreach (ApplicationUser user in _userManager.Users)
+            {
+                var li = new SelectListItem
+                {
+                    Value = user.Id.ToString(),
+                    Text = user.UserName,
+                };
+                items.Add(li);
+            }
+            items.Add(new SelectListItem { Text = "Please Select...", Value = "na", Selected = true });
+            return items;
+        }
+
         // GET: Items/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.User, "Id", "Email");
+            
+            ViewBag.Users = GetUserList();
+            //ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+            //ViewBag.Users = new SelectList(_userManager.Users, nameof(ApplicationUser.Id), nameof(ApplicationUser.UserName));
             return View();
         }
 
@@ -60,7 +82,7 @@ namespace HappyCitizens.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,UserId,Room,Description,Category,PurchaseDate,Condition,Price,IsInsured")] Item item)
         {
-            var user = _context.User.Find(item.UserId);
+            var user = await _userManager.FindByIdAsync(item.UserId.ToString());
             if (user != null)
             {
                 item.User = user;
@@ -68,9 +90,9 @@ namespace HappyCitizens.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            //ViewData["UserId"] = new SelectList(_context.User, "Id", "FullName", item.UserId);
+            ViewBag.Users = GetUserList();
             return View(item);
-            
+
         }
 
         // GET: Items/Edit/5
@@ -86,7 +108,7 @@ namespace HappyCitizens.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.User, "Id", "FullName", item.UserId);
+            ViewBag.Users = GetUserList();
             return View(item);
         }
 
@@ -105,7 +127,7 @@ namespace HappyCitizens.Controllers
             var user = _context.User.Find(item.UserId);
             if (user == null)
             {
-                ViewData["UserId"] = new SelectList(_context.User, "Id", "FullName", item.UserId);
+                ViewBag.Users = GetUserList();
                 return View(item);
             }
 
