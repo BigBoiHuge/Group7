@@ -23,10 +23,16 @@ namespace HappyCitizens.Controllers
         }
 
         // GET: Items
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
+            ViewData["CurrentFilter"] = searchString;
+            var items = from i in _context.Item select i;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                items = items.Where(i => i.UserId == searchString);
+            }
             return _context.Item != null ?
-                View(await _context.Item.Include(p => p.User).ToListAsync()) :
+                View(await items.ToListAsync()) :
                 Problem("Entity set 'ApplicationDbContext.Item' is null");
         }
 
