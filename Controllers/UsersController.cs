@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HappyCitizens.Data;
 using HappyCitizens.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace HappyCitizens.Controllers
 {
@@ -14,9 +15,12 @@ namespace HappyCitizens.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public UsersController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> userManager;
+
+        public UsersController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            this.userManager = userManager;
         }
 
         // GET: Users
@@ -27,6 +31,12 @@ namespace HappyCitizens.Controllers
                           Problem("Entity set 'ApplicationDbContext.User'  is null.");
         }
 
+        [HttpGet]
+        public IActionResult ListUsers()
+        {
+            var users = userManager.Users;
+            return View(users);
+        }
         // GET: User/ShowInventory
         public IActionResult ShowInventory()
         {
