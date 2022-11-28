@@ -1,4 +1,9 @@
 ﻿@model IEnumerable<HappyCitizens.Models.Item>
+@using Microsoft.AspNetCore.Identity
+@using HappyCitizens.Data
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
 @{
     ViewData["Title"] = "Index";
@@ -58,9 +63,13 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
+    if (item.UserId != UserManager.GetUserId(User) && !await UserManager.IsInRoleAsync(UserManager.GetUserAsync(User).Result, "admin"))
+    {
+        continue;
+    }
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.User.Id)
+                @Html.DisplayFor(modelItem => item.User.UserName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Room)

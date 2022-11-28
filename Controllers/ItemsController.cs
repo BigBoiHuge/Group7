@@ -31,8 +31,9 @@ namespace HappyCitizens.Controllers
             {
                 items = items.Where(i => i.UserId == searchString);
             }
+            
             return _context.Item != null ?
-                View(await items.ToListAsync()) :
+                View(await items.Include(p => p.User).ToListAsync()) :
                 Problem("Entity set 'ApplicationDbContext.Item' is null");
         }
 
