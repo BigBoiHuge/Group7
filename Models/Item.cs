@@ -27,7 +27,7 @@ public class Item
     public int Id { get; set; }
 
     [Display(Name = "Owner")]
-    public int UserId { get; set; }
+    public string UserId { get; set; } = String.Empty;
 
     [Required]
     public virtual ApplicationUser User { get; set; } = new ApplicationUser();

@@ -56,7 +56,7 @@ namespace HappyCitizens.Controllers
             {
                 var li = new SelectListItem
                 {
-                    Value = user.Id.ToString(),
+                    Value = user.Id,
                     Text = user.UserName,
                 };
                 items.Add(li);
@@ -82,7 +82,7 @@ namespace HappyCitizens.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,UserId,Room,Description,Category,PurchaseDate,Condition,Price,IsInsured")] Item item)
         {
-            var user = await _userManager.FindByIdAsync(item.UserId.ToString());
+            var user = await _userManager.FindByIdAsync(item.UserId);
             if (user != null)
             {
                 item.User = user;
