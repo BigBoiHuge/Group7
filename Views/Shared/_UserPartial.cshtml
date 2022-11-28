@@ -1,0 +1,15 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using HappyCitizens.Data
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Items" asp-action="Index">Propertys</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Items" asp-action="Details">Search</a>
+    </li>
+}
