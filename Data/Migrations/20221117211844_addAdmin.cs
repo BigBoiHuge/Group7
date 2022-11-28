@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using HappyCitizens.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Migrations;
 using System.Text;
 
@@ -15,7 +16,7 @@ namespace HappyCitizens.Data.Migrations
 
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            var hasher = new PasswordHasher<IdentityUser>();
+            var hasher = new PasswordHasher<ApplicationUser>();
 
             var passwordHash = hasher.HashPassword(null, "Password100!");
 

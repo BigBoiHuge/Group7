@@ -49,7 +49,7 @@ namespace HappyCitizens.Controllers
         // GET: Items/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.User, "Id", "FullName");
+            ViewData["UserId"] = new SelectList(_context.User, "Id", "Email");
             return View();
         }
 
@@ -68,7 +68,7 @@ namespace HappyCitizens.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.User, "Id", "FullName", item.UserId);
+            //ViewData["UserId"] = new SelectList(_context.User, "Id", "FullName", item.UserId);
             return View(item);
             
         }

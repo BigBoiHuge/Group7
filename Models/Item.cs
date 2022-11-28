@@ -30,7 +30,7 @@ public class Item
     public int UserId { get; set; }
 
     [Required]
-    public virtual User User { get; set; } = new User();
+    public virtual ApplicationUser User { get; set; } = new ApplicationUser();
 
     [Required]
     public string Room { get; set; } = String.Empty;

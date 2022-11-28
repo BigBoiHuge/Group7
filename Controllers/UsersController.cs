@@ -62,7 +62,7 @@ namespace HappyCitizens.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FullName,Address,Email,IsAdmin")] User user)
+        public async Task<IActionResult> Create([Bind("Id,FullName,Address,Email,IsAdmin")] ApplicationUser user)
         {
             if (ModelState.IsValid)
             {
@@ -94,7 +94,7 @@ namespace HappyCitizens.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FullName,Address,Email,IsAdmin")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FullName,Address,Email,IsAdmin")] ApplicationUser user)
         {
             if (id != user.Id)
             {

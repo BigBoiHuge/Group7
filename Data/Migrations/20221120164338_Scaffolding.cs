@@ -33,7 +33,7 @@ namespace HappyCitizens.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Property",
+                name: "Item",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -57,7 +57,7 @@ namespace HappyCitizens.Data.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Property_UserId",
-                table: "Property",
+                table: "Item",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -70,7 +70,7 @@ namespace HappyCitizens.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Property");
+                name: "Item");
 
             migrationBuilder.DropTable(
                 name: "User");
