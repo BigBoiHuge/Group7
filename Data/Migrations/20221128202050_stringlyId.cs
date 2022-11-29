@@ -14,6 +14,18 @@ namespace HappyCitizens.Data.Migrations
                 name: "FK_Item_AspNetUsers_UserId1",
                 table: "Item");
 
+            /*migrationBuilder.DropIndex(
+                name: "IX_Item_UserId1",
+                table: "Item");*/
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Property_User_UserId",
+                table: "Item");
+
+            migrationBuilder.DropIndex(
+                name: "IX_Property_UserId",
+                table: "Item");
+
             migrationBuilder.DropIndex(
                 name: "IX_Item_UserId1",
                 table: "Item");

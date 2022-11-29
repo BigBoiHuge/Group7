@@ -43,7 +43,8 @@ namespace HappyCitizens.Data.Migrations
                     PhysicalAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     YearBuilt = table.Column<int>(type: "int", nullable: false),
                     DeputyAppraiser = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
+                }
+                /*,
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Property", x => x.Id);
@@ -53,12 +54,13 @@ namespace HappyCitizens.Data.Migrations
                         principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                }*/
+                );
 
-            migrationBuilder.CreateIndex(
+            /*migrationBuilder.CreateIndex(
                 name: "IX_Property_UserId",
                 table: "Item",
-                column: "UserId");
+                column: "UserId");*/
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_UserId",
