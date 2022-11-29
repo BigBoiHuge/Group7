@@ -3,12 +3,13 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/admin.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/Darkly.css" />
+    <link href="~/css/light.css" rel="stylesheet" title="Light"/>
+    <link href="~/css/darkk.css" rel="alternate stylesheet" title="Dark" />
     <title>@ViewData["Title"] - Happy Citizens</title>
 </head>
 <body>
@@ -31,10 +32,10 @@
                         <partial name="_UserPartial" />
                         <partial name="_AdminPartial" />
                     </ul>
-                    <select name="theme-select" id="theme-select">
-                        <option value="light">Light</option>
-                        <option value="dark">Dark</option>
-                        </select>
+                    <select name="theme-select" onmousedown ="this.value'';" onchange="css_switch(this.value)">
+                        <option value="Light">Light</option>
+                        <option value="Dark">Dark</option>
+                     </select>
                     <partial name="_LoginPartial" />
                 </div>
             </div>
